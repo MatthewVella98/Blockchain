@@ -1,0 +1,12 @@
+strict digraph {
+  Lottery
+  enter [color=brown]
+  push
+  random [color=yellow]
+  pickWinner [color=purple]
+  transfer
+  getPlayers [color=yellow]
+  enter -> push
+  pickWinner -> transfer
+}
+
