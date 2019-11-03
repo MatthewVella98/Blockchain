@@ -1,9 +1,9 @@
 const assert = require('assert');
 const ganache = require('ganache-cli'); //local test network
 const Web3 = require('web3'); 
-const web3 = new Web3(ganache.provider()); 
+const web3 = new Web3(ganache.provider());     // For the unit tests, we use the ganache local network. 
 
-const compiled = require('../compile'); 
+const compiled = require('../compile');       // Get the compiled abi + bytecode from the compile script. 
 
 let lottery;
 let accounts; 
@@ -16,11 +16,13 @@ beforeEach(async () => {
     
     await contract.deploy({data: '0x' + compiled.bytecode})
         .send({gas: 1000000, from: accounts[0]});
+
+    
 });
 
 describe('Lottery Contract', ()=> {
     it('deploys a contract', () => {
-        assert.ok(lottery.options.address); 
+        assert.ok(lottery.options.address);    
     });
 
     it('allows one account to enter', async() => {
