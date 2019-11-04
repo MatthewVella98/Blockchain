@@ -14,7 +14,6 @@ const provider = new HDWalletProvider(
 // Providing the provider to the Web3 to understand how to talk to the blockchain (To the Infura node on the chain in this case). 
 const web3 = new Web3(provider);          
 
-
 const deploy = async () => {
 
   // Get list of all accounts. 

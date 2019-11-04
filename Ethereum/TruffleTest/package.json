@@ -1,0 +1,11 @@
+{
+  "name": "truffletest",
+  "version": "1.0.0",
+  "description": "Testing truffle for Ethereum Applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
