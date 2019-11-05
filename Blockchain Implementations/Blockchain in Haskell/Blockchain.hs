@@ -45,6 +45,13 @@ evaluate (Add exp1 exp2) memory = (evaluate exp1 memory) + (evaluate exp2 memory
 evaluate (Mul exp1 exp2) memory = (evaluate exp1 memory) * (evaluate exp2 memory)
 evaluate (Neg exp) memory = - (evaluate exp memory)
 
+-- Example:  evaluate (Mul (Val 2) (Add (Var "x") (Val 10))) (initialiseMemory) =
+-- (evaluate (Val 2) (initialiseMemory) ) * (evaluate (Add (Var "x") (Val 10)) (initialiseMemory))
+-- evaluate (Add (Var "x") (Val 10)) (initialiseMemory) =
+-- (evaluate (Var "x") (initialiseMemory)) + (evaluate (Val 10) (initialiseMemory))
+-- evaluate (Var "x") (initialiseMemory) = initialiseMemory "x" = 0
+-- evaluate (Val 10) (initialiseMemory) = 10
+
 
 instance Show Code where
   show (Assign v e) = v ++ " = " ++ show e
