@@ -7,13 +7,13 @@ type TimeStamp = ((Int, Int, Int), (Int, Int, Int))
 type Transaction = (Address, Amount, Address, TimeStamp)
 type Ledger = [Transaction]
 
--- (1)
+
 type VarName = String
--- (1)
+
 data Exp = Var VarName | Val Integer | Add Exp Exp | Mul Exp Exp | Neg Exp deriving (Eq)
---  (1)
+
 type Memory = VarName -> Integer
---  (2)
+
 data Code = Assign VarName Exp
           | Transfer Address Exp
           | Conditional Exp (Code, Code)
@@ -21,15 +21,15 @@ data Code = Assign VarName Exp
           | Seq Code Code
           | Empty
    deriving (Eq)
--- (3)
+
 type SmartLedger = (Ledger, Address -> (Code, Memory))
 
---  (1a)
+
 initialiseMemory :: Memory
 initialiseMemory = \x -> 0
 -- This function returns the value of a variable when given it's name.
 
--- (1b)
+
 instance Show Exp where
   show (Val x) = show x  --If it's a value, convert it to string and show it
   show (Var n) = n -- If it's a variable name, return it
@@ -37,7 +37,7 @@ instance Show Exp where
   show (Mul exp1 exp2) = "(" ++ show exp1 ++ ") * (" ++ show exp2 ++ ")"
   show (Neg exp)  = " - (" ++ show exp ++ ")"
 
---  (1c)
+
 evaluate :: Exp -> Memory -> Integer   --Memory is a function: Given a variable name, it returns a value.
 evaluate (Val x) _ = x --If it's just a value, return it.
 evaluate (Var varName) memory = memory varName --If it's a variable, return it's value from memory.
@@ -45,16 +45,7 @@ evaluate (Add exp1 exp2) memory = (evaluate exp1 memory) + (evaluate exp2 memory
 evaluate (Mul exp1 exp2) memory = (evaluate exp1 memory) * (evaluate exp2 memory)
 evaluate (Neg exp) memory = - (evaluate exp memory)
 
--- Example:  evaluate (Mul (Val 2) (Add (Var "x") (Val 10))) (initialiseMemory) =
--- (evaluate (Val 2) (initialiseMemory) ) * (evaluate (Add (Var "x") (Val 10)) (initialiseMemory))
 
---  evaluate (Add (Var "x") (Val 10)) (initialiseMemory) =
--- (evaluate (Var "x") (initialiseMemory)) + (evaluate (Val 10) (initialiseMemory))
-
---evaluate (Var "x") (initialiseMemory) = initialiseMemory "x" = 0
--- evaluate (Val 10) (initialiseMemory) = 10
-
--- (2a)
 instance Show Code where
   show (Assign v e) = v ++ " = " ++ show e
   show (Transfer a e) = "transfer " ++ show e ++ " to " ++ show a
@@ -63,7 +54,7 @@ instance Show Code where
   show (Seq c1 c2) = show c1 ++ "\n\r" ++ show c2
   show (Empty) = ""
 
--- (2b)
+
 simulate :: Code -> Memory -> (Memory, [(Address, Amount)]) --
 simulate (Assign v e) m = ((\x -> if x == v then (evaluate e m) else (m x)), [])
 --We would like to assign value of expression 'e' to 'v' variable.
@@ -98,7 +89,7 @@ simulate (Seq c1 c2) m = let (new_m, t) = simulate c1 m
 -- and list of transactions - t ++ t1
 simulate (Empty) m = (m, [])
 
--- (3a)
+
 initialSmartLedger :: SmartLedger
 initialSmartLedger = ([], (\_ -> (Empty, initialiseMemory)))
 -- Function returns empty SmartLedger
