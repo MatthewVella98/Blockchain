@@ -1,20 +1,20 @@
 module Assignment2 where
 
--- Types from Assigment 1
+-- Types from Part1 of this implementation
 type Address = Int
 type Amount = Float
 type Balances = Address -> Amount
 
--- (1)
+
 type TimeStamp = ((Int, Int, Int), (Int, Int, Int)) -- ((year, month, day), (hours, minutes, seconds))
--- (2)
+
 type Transaction = (Address, Amount, Address, TimeStamp)
--- (2)
+
 type Ledger = [Transaction]
--- (2g)
+
 type ExchangeRate = TimeStamp -> Float
 
--- Code from Assigment 1
+-- Code from Part1 of this implementation
 initBalances :: Balances
 initBalances = \x -> 0
 
@@ -33,29 +33,29 @@ transfer address1 amount address2 balances = addToBalance address2 amount (deduc
 mine :: Amount -> Address -> Balances -> Balances
 mine amount address balances = addToBalance address amount balances
 
--- (1a)
+------
 showTimeStamp :: TimeStamp -> String
 showTimeStamp ((year, month, day), (hours, minutes, seconds)) = show month ++ "/" ++ show day ++ "/" ++ show year ++ " " ++ show hours ++ "h" ++ show minutes ++ "m" ++ show seconds ++ "s"
  -- convert to string
 
--- (1b)
+
 before :: TimeStamp -> TimeStamp -> Bool
 before (d1, t1) (d2, t2) = d1 < d2 || d1 == d2 && t1 < t2 -- compare tuples
 -- Comparison operator for twin -tuples;
 -- It compares 1st elem with 1st elem, if one elemet is greater, it returns, else it will
 -- compare the next two ; 2nd elem with 2nd elem etc..
 
--- (1c)
+
 between :: (TimeStamp, TimeStamp) -> TimeStamp -> Bool
 between (ts1, ts2) ts = before ts1 ts && before ts ts2
 -- Using the before function we created above.
 
--- (2a)
+
 performTransaction :: Transaction -> Balances -> Balances
 performTransaction (addr1, amount, addr2, _) balances =  if addr1 == 0 then mine amount addr2 balances else transfer addr1 amount addr2 balances
  -- if sender's address is zero - mining, otherwise - transfer transaction
 
--- (2b)
+
 ledgerToBalances :: Ledger -> Balances
 ledgerToBalances ledger = foldl (\balances transaction -> performTransaction transaction balances) initBalances ledger
 -- Start with initBalances as first value (all balances are zero) and the first transaction
@@ -63,7 +63,7 @@ ledgerToBalances ledger = foldl (\balances transaction -> performTransaction tra
 -- and the updated balances will be used instead of the init balances, to perform the second transaction on the list,
 -- this is repeated for all the transactions in the list.
 
--- (2c)
+
 ledgerValidTimeStamp :: Ledger -> Bool
 ledgerValidTimeStamp ledger = foldl (\res ((_, _, _, ts1), (_, _, _, ts2)) -> res && before ts1 ts2) True (zip ledger (tail ledger))
 -- \res will start as True as initial value (_, _, _, ts1)) = any transaction.
@@ -71,7 +71,7 @@ ledgerValidTimeStamp ledger = foldl (\res ((_, _, _, ts1), (_, _, _, ts2)) -> re
 -- If after comparing any transactions, the before method returns a false, ultimetely, a False is returned.
 -- Else, If all timestamps are correct, a True is outputted.
 
--- (2c)
+
 ledgerValidBalances :: Ledger -> Bool
 ledgerValidBalances ledger = fst (foldl (\(res, balances) (addr1, amount, addr2, ts) -> (if addr1 == 0 then res else res && (checkEnoughBalance addr1 amount balances), performTransaction (addr1, amount, addr2, ts) balances)) (True, initBalances) ledger)
 -- fst: a functions which takes the first element in a tuple
@@ -81,22 +81,22 @@ ledgerValidBalances ledger = fst (foldl (\(res, balances) (addr1, amount, addr2,
 -- performTransaction, finally outputting a tuple (Bool, Balances) , bool showing whether or not all transactions left the sender
 -- with a negative balance, and the updated balances after all transactions. function fst is used to take the bool only.
 
--- (2d)
+
 transactionsBetweenTimeStamps :: Ledger -> (TimeStamp, TimeStamp) -> Ledger
 transactionsBetweenTimeStamps ledger (ts1, ts2) = [(addr1, amount, addr2, ts) | (addr1, amount, addr2, ts) <- ledger, between (ts1, ts2) ts]
 -- List Comprehension: select transactions, from ledger, filter with between method .
 
--- (2e)
+
 transactionsExceedingAmount :: Ledger -> Amount -> Ledger
 transactionsExceedingAmount ledger amount = filter (\(addr1, amnt, addr2, ts) -> amnt > amount) ledger
 -- Select transactions from 'ledger' where amt > amount
 
--- (2f)
+
 ledgerInEuros :: Ledger -> Float -> Ledger
 ledgerInEuros ledger rate = map (\(addr1, amount, addr2, ts) -> (addr1, amount * rate, addr2, ts)) ledger
 -- map : for each element of the list 'ledger', peform the lambda (multiply each amount by the exchange rate constant)
 
---(2g)
+
 ledgerInEurosOverTime :: Ledger -> ExchangeRate -> Ledger
 ledgerInEurosOverTime ledger rate = map (\(addr1, amount, addr2, ts) -> (addr1, amount * (rate ts), addr2, ts)) ledger
 -- multiply each amount by the exchange rate at the given time
