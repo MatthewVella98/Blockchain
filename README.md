@@ -3,7 +3,7 @@
 
 ### Ethereum Applications 
 
-I. Classic Ethereum application: Kickstarter smart contract
+I. Classic Ethereum application: Kickstarter smart contract <br>
 II. TruffleTest: Using the truffle development tools. 
 
 ### Blockchain Implementations
