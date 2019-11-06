@@ -1,7 +1,7 @@
 ## Blockchain in Haskell 
 
 ### Evaluate transaction Function
-### Example
+#### Example
 
 evaluate (Mul (Val 2) (Add (Var "x") (Val 10))) (initialiseMemory) = <br>
 (evaluate (Val 2) (initialiseMemory) ) * (evaluate (Add (Var "x") (Val 10)) (initialiseMemory)) <br>
