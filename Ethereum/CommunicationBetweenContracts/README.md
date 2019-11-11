@@ -1,4 +1,4 @@
-# Communication between Soldity Smart contrats
+# Communication between Soldity Smart Contracts
 
 ### Callee.sol
 A Callee contract (Callee.sol), is a simple contract, which holds an array of integers, a function getValue to retrieve the emount of stored values and a function storeValue, as a away to add value. A method getValues returns the length of the array values. 
