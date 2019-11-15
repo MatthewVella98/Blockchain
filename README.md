@@ -4,7 +4,7 @@
 
 ### Ethereum 
 
-I. Classic Ethereum application: Kickstarter smart contract <br>
+I. @nbsp Classic Ethereum application: Kickstarter smart contract <br>
 II. TruffleTest: Using the truffle development tools. 
 
 ### Hyperledger Fabric 
