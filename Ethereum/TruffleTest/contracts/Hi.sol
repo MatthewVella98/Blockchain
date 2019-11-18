@@ -6,3 +6,4 @@ contract Hi {
         return true; 
     }
 }
+
