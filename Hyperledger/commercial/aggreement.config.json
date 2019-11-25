@@ -1,0 +1,11 @@
+{
+  "txTimeout": 300000,
+  "skipInit": true,
+  "controllers": [
+    {
+      "name": "aggreement-cc",
+      "version": "file:./packages/aggreement-cc",
+      "controller": "AggreementController"
+    }
+  ]
+}
