@@ -1,0 +1,11 @@
+{
+  "txTimeout": 300000,
+  "skipInit": true,
+  "controllers": [
+    {
+      "name": "kickstarter-cc",
+      "version": "file:./packages/kickstarter-cc",
+      "controller": "KickstarterController"
+    }
+  ]
+}
