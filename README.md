@@ -1,5 +1,5 @@
 # Blockchain 
-### Technologies used: JavaScript (Node JS), Solidity, Haskell 
+### Technologies used: JavaScript (Node JS), TypeScript, Solidity, Haskell 
 ## Blockchain small Projects 
 
 ### Ethereum 
